@@ -19,8 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-import static jp.techacademy.takashi.sano.qa_app.R.id.nameText;
-
 public class SettingActivity extends AppCompatActivity {
 
     DatabaseReference mDataBaseReference;
@@ -34,8 +32,8 @@ public class SettingActivity extends AppCompatActivity {
         // Preferenceから表示名を取得してEditTextに反映させる
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         String name = sp.getString(Const.NameKEY, "");
-        mNameText = (EditText) findViewById(nameText);
-        nameText.setText(name);
+        mNameText = (EditText) findViewById(R.id.nameText);
+        mNameText.setText(name);
 
         mDataBaseReference = FirebaseDatabase.getInstance().getReference();
 
