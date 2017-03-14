@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -181,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
 
-                // --- ここから ---
                 // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
                 mQuestionArrayList.clear();
                 mAdapter.setQuestionArrayList(mQuestionArrayList);
@@ -193,12 +193,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
                 mGenreRef.addChildEventListener(mEventListener);
-                // --- ここまで追加する ---
                 return true;
             }
         });
 
-        // --- ここから ---
         // Firebase
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -207,7 +205,16 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new QuestionsListAdapter(this);
         mQuestionArrayList = new ArrayList<Question>();
         mAdapter.notifyDataSetChanged();
-        // --- ここまで追加する ---
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Questionのインスタンスを渡して質問詳細画面を起動する
+                Intent intent = new Intent(getApplicationContext(), QuestionDetailActivity.class);
+                intent.putExtra("question", mQuestionArrayList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
