@@ -30,4 +30,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true" />
 
+    //佐野が追加した
+
 </RelativeLayout>
