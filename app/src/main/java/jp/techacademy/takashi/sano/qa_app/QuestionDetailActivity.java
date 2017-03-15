@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import static jp.techacademy.takashi.sano.qa_app.R.id.switch1;
+
 public class QuestionDetailActivity extends AppCompatActivity {
 
     private ListView mListView;
@@ -79,6 +81,20 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mQuestion = (Question) extras.get("question");
 
         setTitle(mQuestion.getTitle());
+
+        // 佐野が追加した
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            // ログインしていなければswitchを消す
+            setContentView(R.layout.activity_question_detail);
+            findViewById(R.id.switch1).setVisibility(View.INVISIBLE);
+        } else {
+            // ログインしていればswitchを表示
+            setContentView(R.layout.activity_question_detail);
+            findViewById(R.id.switch1).setVisibility(View.VISIBLE);
+        }
+        // 佐野が追加した
 
         // ListViewの準備
         mListView = (ListView) findViewById(R.id.listView);
