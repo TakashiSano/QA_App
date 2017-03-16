@@ -206,5 +206,19 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Const.NameKEY, name);
         editor.commit();
+
+        // 佐野が追加した
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            // ログインしていなければswitchを消す
+            setContentView(R.layout.activity_question_detail);
+            findViewById(R.id.switch1).setVisibility(View.INVISIBLE);
+        } else {
+            // ログインしていればswitchを表示
+            setContentView(R.layout.activity_question_detail);
+            findViewById(R.id.switch1).setVisibility(View.VISIBLE);
+        }
+        // 佐野が追加した
     }
 }
