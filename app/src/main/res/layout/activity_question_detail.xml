@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="お気に入り　"
-        android:onClick="onSwitchClicked"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
     // 佐野が追加した
