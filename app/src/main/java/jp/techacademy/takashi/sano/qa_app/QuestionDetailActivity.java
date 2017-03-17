@@ -28,11 +28,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private ListView mListView;
     private Question mQuestion;
     private QuestionDetailListAdapter mAdapter;
-
     private DatabaseReference mAnswerRef;
 
     //佐野が追加した
-    private Switch mSwitch = null;
+    private Switch mSwitch;
     SharedPreferences mPreference;
     //佐野が追加した
 
@@ -91,19 +90,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mQuestion = (Question) extras.get("question");
 
-        setTitle(mQuestion.getTitle());
+        //Switch保持のために追加
+        mPreference = PreferenceManager.getDefaultSharedPreferences(this);
+        //Switch保持のために追加
 
+        setTitle(mQuestion.getTitle());
+        mSwitch.setChecked(mPreference.getBoolean(mQuestion.getQuestionUid(),false));
+
+        Log.d("SWITCHX",String.valueOf(mPreference.getBoolean(mQuestion.getQuestionUid(),false)));
+        Log.d("SWITCHY",String.valueOf(mSwitch.isChecked()));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user == null) {
             // ログインしていなければswitchを消す
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.INVISIBLE);
+            mSwitch.setVisibility(View.INVISIBLE);
         } else {
             // ログインしていればswitchを表示
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.VISIBLE);
+            mSwitch.setVisibility(View.VISIBLE);
         }
 
         // ListViewの準備
@@ -145,20 +149,20 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                
+
                 if(mSwitch.isChecked()) {
-                    Log.v("スイッチ", "ON");
+                    Log.v("uid", "ON");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("スイッチ",true);
+                    editor.putBoolean("uid",true);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.v("スイッチ", "OFF");
+                    Log.v("uid", "OFF");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("スイッチ",false);
+                    editor.putBoolean("uid",false);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();
@@ -183,17 +187,23 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         setTitle(mQuestion.getTitle());
 
+        mSwitch = (Switch) findViewById(R.id.switch1);
+
+        mPreference.getBoolean(mQuestion.getQuestionUid(),false);
+        mSwitch.setChecked(mPreference.getBoolean(mQuestion.getQuestionUid(),false));
+
+        Log.d("SWITCHX",String.valueOf(mPreference.getBoolean(mQuestion.getQuestionUid(),false)));
+        Log.d("SWITCHY",String.valueOf(mSwitch.isChecked()));
+
         // 佐野が追加した
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user == null) {
             // ログインしていなければswitchを消す
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.INVISIBLE);
+            mSwitch.setVisibility(View.INVISIBLE);
         } else {
             // ログインしていればswitchを表示
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.VISIBLE);
+            mSwitch.setVisibility(View.VISIBLE);
         }
         // 佐野が追加した
 
@@ -231,24 +241,25 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         //佐野が追加した
         mSwitch = (Switch)findViewById(R.id.switch1);
+        mPreference.getBoolean(mQuestion.getQuestionUid(),false);
 
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(mSwitch.isChecked()) {
-                    Log.v("スイッチ", "ON");
+                    Log.v("uid", "ON");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("SWITCH" ,true);
+                    editor.putBoolean(mQuestion.getQuestionUid() ,true);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.v("スイッチ", "OFF");
+                    Log.v("uid", "OFF");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("SWITCH",false);
+                    editor.putBoolean(mQuestion.getQuestionUid(),false);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();
