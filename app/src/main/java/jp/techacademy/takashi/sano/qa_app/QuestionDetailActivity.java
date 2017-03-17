@@ -145,8 +145,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSwitch = (Switch)findViewById(R.id.switch1);
-
+                
                 if(mSwitch.isChecked()) {
                     Log.v("スイッチ", "ON");
                     //Switch保持のために追加
@@ -173,6 +172,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
+
+        //Switch保持のために追加
+        mPreference = PreferenceManager.getDefaultSharedPreferences(this);
+        //Switch保持のために追加
 
         // 渡ってきたQuestionのオブジェクトを保持する
         Bundle extras = getIntent().getExtras();
@@ -229,20 +232,15 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //佐野が追加した
         mSwitch = (Switch)findViewById(R.id.switch1);
 
-        //Switch保持のために追加
-        mPreference = PreferenceManager.getDefaultSharedPreferences(this);
-        //Switch保持のために追加
-
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSwitch = (Switch)findViewById(R.id.switch1);
 
                 if(mSwitch.isChecked()) {
                     Log.v("スイッチ", "ON");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("スイッチ",true);
+                    editor.putBoolean("SWITCH" ,true);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
@@ -250,7 +248,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Log.v("スイッチ", "OFF");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("スイッチ",false);
+                    editor.putBoolean("SWITCH",false);
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();
