@@ -8,11 +8,4 @@
         android:orderInCategory="100"
         android:title="設定"
         app:showAsAction="never" />
-    //佐野が追加する
-    <item
-        android:id="@+id/action_star"
-        android:orderInCategory="100"
-        android:title="お気に入り"
-        app:showAsAction="never" />
-    //佐野が追加する
 </menu>

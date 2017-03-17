@@ -41,9 +41,11 @@ public class LoginActivity extends AppCompatActivity {
     // アカウント作成時にフラグを立て、ログイン処理後に名前をFirebaseに保存する
     boolean mIsCreateAccount = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         mDataBaseReference = FirebaseDatabase.getInstance().getReference();
@@ -84,10 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     DatabaseReference userRef = mDataBaseReference.child(Const.UsersPATH).child(user.getUid());
 
+
                     if (mIsCreateAccount) {
                         // アカウント作成の時は表示名をFirebaseに保存する
                         String name = mNameEditText.getText().toString();
-
 
                         Map<String, String> data = new HashMap<String, String>();
                         data.put("name", name);
@@ -182,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void createAccount(String email, String password) {
@@ -190,7 +193,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // アカウントを作成する
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(mCreateAccountListener);
-    }
+
+        }
 
     private void login(String email, String password) {
         // プログレスダイアログを表示する
@@ -198,7 +202,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // ログインする
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(mLoginListener);
-    }
+
+        }
 
     private void saveName(String name) {
         // Preferenceに保存する
@@ -207,18 +212,6 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(Const.NameKEY, name);
         editor.commit();
 
-        // 佐野が追加した
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user == null) {
-            // ログインしていなければswitchを消す
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.INVISIBLE);
-        } else {
-            // ログインしていればswitchを表示
-            setContentView(R.layout.activity_question_detail);
-            findViewById(R.id.switch1).setVisibility(View.VISIBLE);
-        }
-        // 佐野が追加した
     }
+
 }
