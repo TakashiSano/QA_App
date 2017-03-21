@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
                     mGenre = 4;
                 } else if (id == R.id.nav_star) {
                     mToolbar.setTitle("お気に入り");
-                    mGenre = 5;
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
