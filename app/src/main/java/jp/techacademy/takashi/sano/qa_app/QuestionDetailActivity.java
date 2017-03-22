@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -154,7 +155,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Log.v("uid", "ON");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("uid",true);
+                    Gson gson = new Gson();
+                    editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
@@ -162,7 +164,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Log.v("uid", "OFF");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean("uid",false);
+                    Gson gson = new Gson();
+                    editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();
@@ -243,6 +246,9 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mSwitch = (Switch)findViewById(R.id.switch1);
         mPreference.getBoolean(mQuestion.getQuestionUid(),false);
 
+
+
+
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -251,7 +257,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Log.v("uid", "ON");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean(mQuestion.getQuestionUid() ,true);
+                    Gson gson = new Gson();
+                    editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
@@ -259,7 +266,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Log.v("uid", "OFF");
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
-                    editor.putBoolean(mQuestion.getQuestionUid(),false);
+                    Gson gson = new Gson();
+                    editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();

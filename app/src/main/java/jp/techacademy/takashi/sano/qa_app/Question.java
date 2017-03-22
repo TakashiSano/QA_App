@@ -16,6 +16,9 @@ public class Question implements Serializable {
     private int mGenre;
     private byte[] mBitmapArray;
     private ArrayList<Answer> mAnswerArrayList;
+    //佐野が追加した
+    private String mStar_flag;
+    //佐野が追加した
 
     public String getTitle() {
         return mTitle;
@@ -36,6 +39,7 @@ public class Question implements Serializable {
     public String getQuestionUid() {
         return mQuestionUid;
     }
+
     public int getGenre() {
         return mGenre;
     }
@@ -48,7 +52,13 @@ public class Question implements Serializable {
         return mAnswerArrayList;
     }
 
-    public Question(String title, String body, String name, String uid, String questionUid, int genre, byte[] bytes, ArrayList<Answer> answers) {
+    //佐野が追加した
+    public String getStar_flag(){ return mStar_flag;}
+    //佐野が追加した
+
+    public void setStar_flag(String star_flag){ mStar_flag = star_flag;}
+
+    public Question(String title, String body, String name, String uid, String questionUid, int genre, byte[] bytes, ArrayList<Answer> answers, String star_flag) {
         mTitle = title;
         mBody = body;
         mName = name;
@@ -57,5 +67,6 @@ public class Question implements Serializable {
         mGenre = genre;
         mBitmapArray = bytes.clone();
         mAnswerArrayList = answers;
+        mStar_flag = star_flag;
     }
 }
