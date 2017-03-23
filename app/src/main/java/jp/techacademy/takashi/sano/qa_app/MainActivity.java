@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             String imageString = (String) map.get("image");
 
             //佐野が追加した
-            String star_flag = (String) map.get("star_flag");
+            Boolean star_flag = (Boolean) map.get("star_flag");
             //佐野が追加した
             
             byte[] bytes;
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     //佐野が追加した
     private void LoadPrefData() {
         mPreference = getSharedPreferences(mQuestion.getQuestionUid(), MODE_PRIVATE);
-        String star_flag =  mPreference.getString(mQuestion.getQuestionUid(), "");
+       String star_flag =  mPreference.getString(mQuestion.getQuestionUid(), "");
 
         HashMap map = (HashMap) dataSnapshot.getValue();
         String title = (String) map.get("title");

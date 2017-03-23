@@ -247,8 +247,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mPreference.getBoolean(mQuestion.getQuestionUid(),false);
 
 
-
-
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -258,6 +256,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
                     Gson gson = new Gson();
+                    mQuestion.setStar_flag( true );
                     editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
@@ -267,6 +266,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     //Switch保持のために追加
                     SharedPreferences.Editor editor = mPreference.edit();
                     Gson gson = new Gson();
+                    mQuestion.setStar_flag( false );
                     editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
                     editor.commit();
                     //Switch保持のために追加
