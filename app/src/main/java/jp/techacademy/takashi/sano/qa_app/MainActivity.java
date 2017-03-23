@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -266,10 +267,15 @@ public class MainActivity extends AppCompatActivity {
             Object value = entry.getValue();
             String msg = String.format( "%s=%s", key, value );
 
+
+            if (!key.equals("name") ) {
+
             Gson gson = new Gson();
             Question question = gson.fromJson( (String)value, Question.class );
 
             mQuestionArrayList.add(question);
+
+            }
         }
         mAdapter.notifyDataSetChanged();
         /* ******************************************************************/

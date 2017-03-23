@@ -87,19 +87,40 @@ public class QuestionDetailActivity extends AppCompatActivity {
         super.onRestart();
         setContentView(R.layout.activity_question_detail);
 
-        // 渡ってきたQuestionのオブジェクトを保持する
-        Bundle extras = getIntent().getExtras();
-        mQuestion = (Question) extras.get("question");
-
         //Switch保持のために追加
         mPreference = PreferenceManager.getDefaultSharedPreferences(this);
         //Switch保持のために追加
 
-        setTitle(mQuestion.getTitle());
-        mSwitch.setChecked(mPreference.getBoolean(mQuestion.getQuestionUid(),false));
+        // 渡ってきたQuestionのオブジェクトを保持する
+        Bundle extras = getIntent().getExtras();
+        mQuestion = (Question) extras.get("question");
 
-        Log.d("SWITCHX",String.valueOf(mPreference.getBoolean(mQuestion.getQuestionUid(),false)));
-        Log.d("SWITCHY",String.valueOf(mSwitch.isChecked()));
+        setTitle(mQuestion.getTitle());
+
+        mSwitch = (Switch) findViewById(R.id.switch1);
+
+         /* ******************************************************************/
+        // Preferenceから登録されている対象データを取得する。
+        String question = mPreference.getString( mQuestion.getQuestionUid(), "" );
+        // データが存在している場合
+        if( !question.equals(""))
+        {
+            // Questionクラスに戻す。
+            Gson gson = new Gson();
+            mQuestion = gson.fromJson( question, Question.class );
+        }
+
+        // 最初は必ずNULLなので、チェックを行う。
+        if( mQuestion.getStar_flag() == null )
+        {
+            // NULLの場合には、必ずfalseを入れる。（初期値）
+            mQuestion.setStar_flag( false );
+        }
+
+        // お気に入りの状態を設定
+        mSwitch.setChecked(mQuestion.getStar_flag());
+        /* ******************************************************************/
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
