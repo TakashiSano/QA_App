@@ -1,6 +1,7 @@
 package jp.techacademy.takashi.sano.qa_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
     public static ArrayList<Question> mStarArrayList;
+
+    SharedPreferences mPreference;
+    private Question mQuestion;
 
     private ChildEventListener mEventListener = new ChildEventListener() {
         @Override
@@ -204,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // 選択したジャンルにリスナーを登録する
                 if (id == R.id.nav_star) {
-
+                    LoadPrefData();
                 } else if (id != R.id.nav_star) {
                     if (mGenreRef != null) {
                         mGenreRef.removeEventListener(mEventListener);
@@ -235,6 +239,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //佐野が追加した
+    private void LoadPrefData() {
+        mPreference = getSharedPreferences(mQuestion.getQuestionUid(), MODE_PRIVATE);
+        String star_flag =  mPreference.getString(mQuestion.getQuestionUid(), "");
+
+        HashMap map = (HashMap) dataSnapshot.getValue();
+        String title = (String) map.get("title");
+        String body = (String) map.get("body");
+        String name = (String) map.get("name");
+        String uid = (String) map.get("uid");
+        String imageString = (String) map.get("image");
+        byte[] bytes;
+        if (imageString != null) {
+            bytes = Base64.decode(imageString, Base64.DEFAULT);
+        } else {
+            bytes = new byte[0];
+        }
+
+        ArrayList<Answer> answerArrayList = new ArrayList<Answer>();
+        HashMap answerMap = (HashMap) map.get("answers");
+        if (answerMap != null) {
+            for (Object key : answerMap.keySet()) {
+                HashMap temp = (HashMap) answerMap.get((String) key);
+                String answerBody = (String) temp.get("body");
+                String answerName = (String) temp.get("name");
+                String answerUid = (String) temp.get("uid");
+                Answer answer = new Answer(answerBody, answerName, answerUid, (String) key);
+                answerArrayList.add(answer);
+            }
+        }
+
+        Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList);
+        mQuestionArrayList.add(question);
+
+        mAdapter.notifyDataSetChanged();
+    }
+    //佐野が追加した
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
