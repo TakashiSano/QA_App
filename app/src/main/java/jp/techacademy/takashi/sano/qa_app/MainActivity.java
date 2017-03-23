@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
             String name = (String) map.get("name");
             String uid = (String) map.get("uid");
             String imageString = (String) map.get("image");
+
+            //佐野が追加した
+            String star_flag = (String) map.get("star_flag");
+            //佐野が追加した
+            
             byte[] bytes;
             if (imageString != null) {
                 bytes = Base64.decode(imageString, Base64.DEFAULT);
@@ -72,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList, );
+            Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList, star_flag);
             mQuestionArrayList.add(question);
             mAdapter.notifyDataSetChanged();
         }
