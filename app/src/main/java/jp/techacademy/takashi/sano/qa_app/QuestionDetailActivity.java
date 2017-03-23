@@ -192,11 +192,27 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         mSwitch = (Switch) findViewById(R.id.switch1);
 
-        mPreference.getBoolean(mQuestion.getQuestionUid(),false);
-        mSwitch.setChecked(mPreference.getBoolean(mQuestion.getQuestionUid(),false));
+        /* ******************************************************************/
+        // Preferenceから登録されている対象データを取得する。
+        String question = mPreference.getString( mQuestion.getQuestionUid(), "" );
+        // データが存在している場合
+        if( !question.equals(""))
+        {
+            // Questionクラスに戻す。
+            Gson gson = new Gson();
+            mQuestion = gson.fromJson( question, Question.class );
+        }
 
-        Log.d("SWITCHX",String.valueOf(mPreference.getBoolean(mQuestion.getQuestionUid(),false)));
-        Log.d("SWITCHY",String.valueOf(mSwitch.isChecked()));
+        // 最初は必ずNULLなので、チェックを行う。
+        if( mQuestion.getStar_flag() == null )
+        {
+            // NULLの場合には、必ずfalseを入れる。（初期値）
+            mQuestion.setStar_flag( false );
+        }
+
+        // お気に入りの状態を設定
+        mSwitch.setChecked(mQuestion.getStar_flag());
+        /* ******************************************************************/
 
         // 佐野が追加した
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -244,7 +260,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         //佐野が追加した
         mSwitch = (Switch)findViewById(R.id.switch1);
-        mPreference.getBoolean(mQuestion.getQuestionUid(),false);
+//        mPreference.getBoolean(mQuestion.getQuestionUid(),false);
 
 
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -263,12 +279,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りに追加しました。", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.v("uid", "OFF");
-                    //Switch保持のために追加
-                    SharedPreferences.Editor editor = mPreference.edit();
-                    Gson gson = new Gson();
                     mQuestion.setStar_flag( false );
-                    editor.putString(mQuestion.getQuestionUid() ,gson.toJson(mQuestion));
+
+                    /* ******************************************************************/
+                    SharedPreferences.Editor editor = mPreference.edit();
+                    editor.remove( mQuestion.getQuestionUid() );
                     editor.commit();
+                    /* ******************************************************************/
+
                     //Switch保持のために追加
                     Toast.makeText(QuestionDetailActivity.this, "お気に入りから削除しました。", Toast.LENGTH_SHORT).show();
                 }
